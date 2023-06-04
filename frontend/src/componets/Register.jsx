@@ -14,6 +14,7 @@ const Register = () => {
       });
       alert("user registered");
     } catch (err) {
+      alert("user already exists");
       console.log(err);
     }
   };

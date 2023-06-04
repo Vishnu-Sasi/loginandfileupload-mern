@@ -16,6 +16,7 @@ const Login = () => {
       localStorage.setItem("token", res.data.token);
       navigate("/upload");
     } catch (err) {
+      alert("invalid username or password");
       console.log(err);
     }
   };

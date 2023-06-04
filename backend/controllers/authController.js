@@ -1,6 +1,6 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const User = require("../models/User");
 
 const register = async (req, res) => {
   const { username, password } = req.body;
@@ -8,7 +8,7 @@ const register = async (req, res) => {
   try {
     const existingUser = await User.findOne({ username });
     if (existingUser) {
-      return res.status(400).json({ error: 'User already exists' });
+      return res.status(400).json({ error: "User already exists" });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -17,10 +17,10 @@ const register = async (req, res) => {
     const newUser = new User({ username, password: hashedPassword });
     await newUser.save();
 
-    res.json({ message: 'Registration successful' });
+    res.status(201).json({ message: "Registration successful" });
   } catch (error) {
-    console.error('Registration error:', error);
-    res.status(500).json({ error: 'An error occurred during registration' });
+    console.error("Registration error:", error);
+    res.status(500).json({ error: "An error occurred during registration" });
   }
 };
 
@@ -30,24 +30,22 @@ const login = async (req, res) => {
   try {
     const user = await User.findOne({ username });
     if (!user) {
-      alert('invalid credentials')
-      return res.status(400).json({ error: 'Invalid credentials' });
+      return res.status(400).json({ message: "invalid credentials" });
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      alert('invalid credentials')
-      return res.status(400).json({ error: 'Invalid credentials' });
+      return res.status(400).json({
+        message: "invalid credentials",
+      });
     }
 
-    const token = jwt.sign({ userId: user._id }, 'secret-key');
+    const token = jwt.sign({ userId: user._id }, "secret-key");
     res.json({ token });
   } catch (error) {
-    console.error('Login error:', error);
-    res.json({ error: 'An error occurred during login' });
+    console.error("Login error:", error);
+    res.json({ error: "An error occurred during login" });
   }
 };
 
 module.exports = { register, login };
-
-
