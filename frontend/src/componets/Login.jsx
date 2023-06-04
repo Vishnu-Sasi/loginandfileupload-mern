@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -14,7 +14,7 @@ const Login = () => {
         password,
       });
       localStorage.setItem("token", res.data.token);
-      navigate("/upload")
+      navigate("/upload");
     } catch (err) {
       console.log(err);
     }
@@ -43,7 +43,7 @@ const Login = () => {
 
         <button type="submit">login</button>
       </form>
-<Link to={"/"}>dont have an account yet? resgister you account</Link>
+      <Link to={"/"}>dont have an account yet? resgister you account</Link>
     </div>
   );
 };
